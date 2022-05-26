@@ -37,6 +37,8 @@ async function run() {
     const partsCollection = client.db('parts-manufacture').collection('parts');
     const userCollection = client.db('parts-manufacture').collection('users');
     const bookingsCollection = client.db('parts-manufacture').collection('bookings');
+    const reviewsCollection = client.db('parts-manufacture').collection('reviews');
+
 
     app.get('/parts', async (req, res) => {
       const query = {};
@@ -53,11 +55,27 @@ async function run() {
 
     });
 
+    
+    app.get('/reviews', async (req, res) => {
+      const query = {};
+      const cursor = reviewsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
+
+     // POST: add a new review
+     app.post('/reviews', async (req, res) => {
+      const reviews = req.body;
+      console.log("adding new  item", reviews);
+      const result = await reviewsCollection.insertOne(reviews);
+      res.send(result);
+    })
+
     // POST: add a new product
     app.post('/parts', async (req, res) => {
-      const newParts = req.body;
-      console.log("adding new  item", newParts);
-      const result = await partsCollection.insertOne(newParts);
+      const products = req.body;
+      console.log("adding new  item", products);
+      const result = await partsCollection.insertOne(products);
       res.send(result);
     })
 

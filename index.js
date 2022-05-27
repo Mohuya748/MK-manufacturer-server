@@ -168,24 +168,6 @@ async function run() {
       res.send(users);
     });
 
-    // update item quantity 
-    //  app.put('/parts/:id', async (req, res) => {
-    //   const id = req.params.id;
-    //   const updateItem = req.body;
-    //   console.log(id, updateItem)
-    //   const filter = { _id: ObjectId(id) };
-    //   console.log(filter)
-    //   const options = { upsert: true };
-    //   const updatedDoc = {
-    //     $set: {
-    //       available_Quantity : updateItem.quantity,
-    //     }
-    //   };
-    //   console.log(updatedDoc)
-    //   const result = await partsCollection.updateOne(filter, updatedDoc, options);
-    //   res.send(result);
-
-    // })
 
     app.get('/booking', verifyJWT, async (req, res) => {
       const email = req.query.email;

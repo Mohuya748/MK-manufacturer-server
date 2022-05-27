@@ -38,6 +38,7 @@ async function run() {
     const userCollection = client.db('parts-manufacture').collection('users');
     const bookingsCollection = client.db('parts-manufacture').collection('bookings');
     const reviewsCollection = client.db('parts-manufacture').collection('reviews');
+    const profileCollection = client.db('parts-manufacture').collection('profile');
 
 
     app.get('/parts', async (req, res) => {
@@ -55,7 +56,7 @@ async function run() {
 
     });
 
-    
+
     app.get('/reviews', async (req, res) => {
       const query = {};
       const cursor = reviewsCollection.find(query);
@@ -63,8 +64,8 @@ async function run() {
       res.send(result);
     });
 
-     // POST: add a new review
-     app.post('/reviews', async (req, res) => {
+    // POST: add a new review
+    app.post('/reviews', async (req, res) => {
       const reviews = req.body;
       console.log("adding new  item", reviews);
       const result = await reviewsCollection.insertOne(reviews);
@@ -120,7 +121,31 @@ async function run() {
       }
     })
 
+    app.get('/profile', async (req, res) => {
+      const query = {};
+      const cursor = profileCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
+    app.put('/profile/:email', async (req, res) => {
+      const email = req.params.email;
+      const profile = req.body;
+      const filter = { email: email };
+      const options = { upsert: true };
+      const updateDoc = {
+        $set: profile
+      };
+      const result = await profileCollection.updateOne(filter, updateDoc, options);
+   
+      res.send(result);
+    })
+
+
+    app.get('/user', verifyJWT, async (req, res) => {
+      const users = await userCollection.find().toArray();
+      res.send(users);
+    });
 
 
     app.put('/user/:email', async (req, res) => {

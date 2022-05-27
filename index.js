@@ -121,23 +121,25 @@ async function run() {
       }
     })
 
-    app.get('/profile', async (req, res) => {
-      const query = {};
-      const cursor = profileCollection.find(query);
-      const result = await cursor.toArray();
-      res.send(result);
-    });
+    // app.get('/profile', async (req, res) => {
+    //   const query = {};
+    //   const cursor = profileCollection.find(query);
+    //   const result = await cursor.toArray();
+    //   res.send(result);
+    // });
 
     app.put('/profile/:email', async (req, res) => {
       const email = req.params.email;
-      const profile = req.body;
+      const users = req.body;
+      console.log(profile);
       const filter = { email: email };
       const options = { upsert: true };
       const updateDoc = {
-        $set: profile
+
+        $set: users,
       };
-      const result = await profileCollection.updateOne(filter, updateDoc, options);
-   
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      console.log(result);
       res.send(result);
     })
 

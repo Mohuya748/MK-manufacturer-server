@@ -100,7 +100,7 @@ async function run() {
       const user = await userCollection.findOne({ email: email });
       const isAdmin = user.role === 'admin';
       res.send({ admin: isAdmin })
-    })
+    });
 
 
 
@@ -119,11 +119,11 @@ async function run() {
       else {
         res.status(403).send({ message: 'forbidden' });
       }
-    })
+    });
 
     app.get('/profile', async (req, res) => {
       const query = {};
-      const cursor =  userCollection.find(query);
+      const cursor =  profileCollection.find(query);
       const result = await cursor.toArray();
       res.send(result);
     });
@@ -138,7 +138,7 @@ async function run() {
 
         $set: users,
       };
-      const result = await userCollection.updateOne(filter, updateDoc, options);
+      const result = await profileCollection.updateOne(filter, updateDoc, options);
       console.log(result);
       res.send(result);
     })

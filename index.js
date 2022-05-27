@@ -121,12 +121,12 @@ async function run() {
       }
     })
 
-    // app.get('/profile', async (req, res) => {
-    //   const query = {};
-    //   const cursor = profileCollection.find(query);
-    //   const result = await cursor.toArray();
-    //   res.send(result);
-    // });
+    app.get('/profile', async (req, res) => {
+      const query = {};
+      const cursor =  userCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
 
     app.put('/profile/:email', async (req, res) => {
       const email = req.params.email;
